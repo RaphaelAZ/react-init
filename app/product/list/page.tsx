@@ -32,10 +32,10 @@ async function getProducts(query?: string) {
 
 export default async function Page({
   searchParams,
-}: {
-  searchParams?: { q?: string | string[] };
-}) {
-  const rawQuery = searchParams?.q;
+}: Readonly<{
+  searchParams: Promise<{ q?: string | string[] }>;
+}>) {
+  const rawQuery = (await searchParams).q;
   const query = Array.isArray(rawQuery) ? rawQuery[0] : rawQuery;
   const data = await getProducts(query);
   const hasQuery = Boolean(query?.trim());

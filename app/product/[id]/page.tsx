@@ -22,9 +22,10 @@ async function getProduct(id: string) {
 export default async function Page({
   params,
 }: Readonly<{
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }>) {
-  const product = await getProduct(params.id);
+  const { id } = await params;
+  const product = await getProduct(id);
 
   return (
     <section className="max-w-2xl space-y-4">
@@ -38,7 +39,7 @@ export default async function Page({
 
       <div className="space-y-2 text-sm text-slate-700">
         <p>Prix: ${product.price}</p>
-        <p>Note: {product.rating.toFixed(1)}</p>
+        <p>Note: {product.rating}</p>
         <p>Stock: {product.stock}</p>
       </div>
     </section>
